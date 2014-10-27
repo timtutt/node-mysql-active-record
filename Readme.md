@@ -94,7 +94,7 @@ Note:
 
 ## Thanks
 
-Huge thanks goes out to [Felix Geisendörfer] ([felixge]) for doing all of the heavy lifting of getting the node-mysql connector together.
+Huge thanks goes out to [Felix Geisendörfer] - [felixge] for doing all of the heavy lifting of getting the node-mysql connector together.
 
 [Felix Geisendörfer]: http://felixge.de/
 [felixge]: https://github.com/felixge/node-mysql/graphs/contributors
