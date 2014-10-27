@@ -1,0 +1,13 @@
+{
+  "name": "mysql-active-record",
+  "version": "1.0.0",
+  "description": "Similar to CodeIgniter Active Record class for databases",
+  "main": "index.js",
+  "homepage": "https://github.com/timtutt/mysql-active-record",
+  "repository": "timtutt/mysql-active-record",
+  "author": "Tim Tutt <tim.tutt@gmail.com> (http://www.timtutt.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "mysql": "~2.5.2"
+  }
+}
