@@ -160,7 +160,7 @@ ActiveRecord.prototype.setWhere = function(conditions, and) {
 				this.whereClause += " OR ";
 
 			this.whereClause += this.connection.escapeId(table + "." + condition.key) +
-											" " + condition.condition + " " + value;
+											" " + operator + " " + value;
 		}
 	}
 }
@@ -293,12 +293,13 @@ ActiveRecord.prototype.setFields = function(fields) {
 
 	for (var i = 0; i < fields.length; i++) {
 		field = fields[i];
-		console.log(field);
+	//	console.log(field);
 		table = typeof(field.table) === "undefined" ?
 						this.table : field.table;
 		as = typeof(field.as) === "undefined" ? '' : ' AS ' +
 				this.connection.escapeId(field.as);
 
+	//TODO: add checks for field.agg being on of the approved aggregate functions...
 		fv = typeof(field.field) === "undefined" ? field.agg :
 							this.connection.escapeId(table + "." + field.field);
 
