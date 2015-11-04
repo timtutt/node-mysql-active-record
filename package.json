@@ -8,6 +8,6 @@
   "author": "Tim Tutt <tim.tutt@gmail.com> (http://www.timtutt.com/)",
   "license": "MIT",
   "dependencies": {
-    "mysql": "~2.5.2"
+    "mysql": "~2.9.0"
   }
 }
