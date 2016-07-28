@@ -388,7 +388,66 @@ ActiveRecord.prototype.get = function(table, cb) {
 	this.resetQuery();
 
 }
+//insert function
+ActiveRecord.prototype.upsert = function(table, records, cb) {
+	if (table == null) {
+		if (this.table == null) {
+			if (typeof(cb) === 'function') {
+				cb({error : "Must provide at minimum a query table"});
+				return;
+			} else {
+				return false;
+			}
 
+		}
+	} else {
+		this.table = table;
+	}
+
+	var q = "";
+	var f = null;
+	var rec = null;
+	var val = null;
+	var res = null;
+
+	if (records.length == 0) {
+		if (typeof(cb) === 'function') {
+			cb({success: false, error : 'No records provided in query'});
+			return false;
+		} else {
+			return false;
+		}
+	}
+	//builds insert queries...
+	for (var i = 0; i < records.length; i++) {
+		q += "INSERT INTO " + this.connection.escapeId(this.table) + " SET ";
+		rec = records[i];
+
+		if (Object.keys(rec).length === 0) {
+			if (typeof(cb) === 'function') {
+				cb({success : false, error: 'No fields supplied for record'});
+				return false;
+			} else {
+				return false;
+			}
+		}
+
+		var x = 0;
+		var theFieldVals = "";
+		for (var field in rec) {
+			val = typeof(rec[field]) === 'number' ? rec[field] :
+						this.connection.escape(rec[field]);
+
+			if (x == 0) {
+				theFieldVals += this.connection.escapeId(field) + " = " + val
+			} else {
+				theFieldVals += ", " + this.connection.escapeId(field) + " = " + val
+			}
+			x++;
+		}
+
+		q += theFieldVals + " ON DUPLICATE KEY UPDATE " + theFieldVals + ";";
+	}
 //insert function
 ActiveRecord.prototype.insert = function(table, records, cb) {
 	if (table == null) {
