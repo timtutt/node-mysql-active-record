@@ -448,6 +448,30 @@ ActiveRecord.prototype.upsert = function(table, records, cb) {
 
 		q += theFieldVals + " ON DUPLICATE KEY UPDATE " + theFieldVals + ";";
 	}
+
+	//query ready time to execute...
+	this.connection.query(q,function(err, results) {
+		if (err) {
+			if (typeof(cb) === 'function') {
+				res = {error: err, queryExecuted: q};//return error messages to the user
+				cb(res);
+			} else {
+				return false;
+			}
+		} else {
+			if (typeof(cb) === 'function') {
+				res = {	success : true,
+								affectedRows : results.changedRows,
+								queryExecuted: q
+							};
+				cb(res);
+			} else {
+				return true;
+			}
+		}
+	});
+	this.resetQuery();
+}
 //insert function
 ActiveRecord.prototype.insert = function(table, records, cb) {
 	if (table == null) {
