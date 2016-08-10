@@ -462,6 +462,7 @@ ActiveRecord.prototype.upsert = function(table, records, cb) {
 			if (typeof(cb) === 'function') {
 				res = {	success : true,
 								affectedRows : results.changedRows,
+								insertId: results.insertId,
 								queryExecuted: q
 							};
 				cb(res);
@@ -547,6 +548,7 @@ ActiveRecord.prototype.insert = function(table, records, cb) {
 			if (typeof(cb) === 'function') {
 				res = {	success : true,
 								affectedRows : results.changedRows,
+								insertId : results.insertId;
 								queryExecuted: q
 							};
 				cb(res);
