@@ -5,13 +5,27 @@ var mysql = require('mysql');
 var ActiveRecord = function(config) {
 
 	config.multipleStatements = true; //allow multiple statements
+	this.dbConfig = config;
 	this.connection = mysql.createConnection(config);
+	this.connection.on('error', function(err) {
+		console.log("DB Error: " + err);
+		handleDisconnect(); //always try to reconnect.
+  });
 	this.queryParts = null;
 
 //	this.connection.connect(); --there is an implicit connect per query
 	this.resetQuery();
 
 	return this;
+}
+
+function handleDisconnect() {
+  this.connection = mysql.createConnection(this.dbConfig); // Recreate the connection, since
+                                                  // the old one cannot be reused.
+  this.connection.on('error', function(err) {
+		console.log("DB Error: " + err);
+		handleDisconnect(); //always try to reconnect.
+  });
 }
 
 //disconnect from database
