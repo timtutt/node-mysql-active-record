@@ -165,16 +165,26 @@ ActiveRecord.prototype.setWhere = function(conditions, and) {
 		value = typeof(condition.value) === "number" ?
 						condition.value : this.connection.escape(condition.value);
 		if (i == 0) {
-			this.whereClause = this.connection.escapeId(table + "." + condition.key) +
-			 					" " + operator + " " + value;
+			var f;
+			if (condition.func !== undefined) {
+				f = condition.func + '(' + this.connection.escapeId(table + "." + condition.key) + ')'
+			} else {
+				f = this.connection.escapeId(table + "." + condition.key);
+			}
+			this.whereClause = f + " " + operator + " " + value;
 		} else {
 			if (and)
 				this.whereClause += " AND ";
 			else
 				this.whereClause += " OR ";
 
-			this.whereClause += this.connection.escapeId(table + "." + condition.key) +
-											" " + operator + " " + value;
+			var f;
+			if (condition.func !== undefined) {
+				f = condition.func + '(' + this.connection.escapeId(table + "." + condition.key) + ')'
+			} else {
+				f = this.connection.escapeId(table + "." + condition.key);
+			}
+			this.whereClause += f + " " + operator + " " + value;
 		}
 	}
 }
